@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-12T11:01:26+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">yzyBlog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to my yzyBlog!</title><link href="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my yzyBlog!" /><published>2023-10-12T01:36:49+08:00</published><updated>2023-10-12T01:36:49+08:00</updated><id>http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-12T09:50:18+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">yzyBlog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to my yzyBlog!</title><link href="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my yzyBlog!" /><published>2023-10-12T01:36:49+08:00</published><updated>2023-10-12T01:36:49+08:00</updated><id>http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2023/10/12/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
 
 <p>Jekyll requires blog post files to be named according to the following format:</p>
 
@@ -121,74 +121,7 @@
       <li>无线网络：蓝牙，微波，无线电</li>
     </ul>
   </li>
-</ol>]]></content><author><name></name></author><category term="计组" /><category term="408" /><summary type="html"><![CDATA[计算机网络]]></summary></entry><entry><title type="html">QRcode</title><link href="http://localhost:4000/bin/qr/2023/08/24/qrcode.html" rel="alternate" type="text/html" title="QRcode" /><published>2023-08-24T22:36:49+08:00</published><updated>2023-08-24T22:36:49+08:00</updated><id>http://localhost:4000/bin/qr/2023/08/24/qrcode</id><content type="html" xml:base="http://localhost:4000/bin/qr/2023/08/24/qrcode.html"><![CDATA[<h1 id="二维码制作">二维码制作</h1>
-
-<h2 id="二维码解析">二维码解析</h2>
-
-<p>在线网站进行二维码解析</p>
-
-<h3 id="二维码生成矢量图">二维码生成矢量图</h3>
-
-<p>https://qrcode.antfu.me/</p>
-
-<p>进行参数调节</p>
-
-<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730000316244.png" alt="image-20230730000316244" /></p>
-
-<h2 id="ssh连接webui">ssh连接webui</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-CNg</span> <span class="nt">-L</span> 6006:127.0.0.1:6006 root@222.187.226.110 <span class="nt">-p</span> 31146
-</code></pre></div></div>
-
-<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730002459085.png" alt="image-20230730002459085" /></p>
-
-<h3 id="二维码webui生成">二维码webui生成</h3>
-
-<h3 id="主模型">主模型</h3>
-
-<p>revAnimated</p>
-
-<h3 id="prompt">prompt</h3>
-
-<h4 id="风景">风景</h4>
-
-<p>正向词</p>
-
-<p>british columbia, surrounded by mountains and nature, beautiful lakes and rivers, northern lights, volumetric lighting, photorealistic, insanely detailed and intricate, canadian rocky mountains, 8k ultra hd, matte painting, night time, Sweeper3D, Ultra realistic, (35mm style:1. 1), ((best quality)), ((masterpiece)), ((realistic)), radiant light rays, highres, highly detailed, concept art, Exaggeration, Aesthetic, magazine, Backlight, light color , heavenly, shadowy, Realism, octane render, unreal engine 5, Shaders, Denoise, De-Noise, Ambient Occlusion</p>
-
-<p>反向词</p>
-
-<p>(bad-image-v2-39000:0.8), (bad_prompt_version2:0.8), (bad-hands-5:1.1), (EasyNegative:0.8), (NG_DeepNegative_V1_4T:0.8), (bad-artist-anime:0.7),(deformed iris, deformed pupils, bad eyes, semi-realistic:1.4), (worst quality, low quality:1.3), (blurry:1.2), (greyscale, monochrome:1.1), (poorly drawn face), cloned face, cross eyed , extra fingers, mutated hands, (fused fingers), (too many fingers), (missing arms), (missing legs), (extra arms), (extra legs), (poorly drawn hands), (bad anatomy), (bad proportions), cropped, lowres, text, jpeg artifacts, signature, watermark, username, artist name, trademark, watermark, title, multiple view, Reference sheet, long neck, Out of Frame,(Naked, Nude, NSFW, Erotica:2.0), tall trees, floating, floating trees, cartoon, 2d, 3d, duplicates, duplicate, same</p>
-
-<h3 id="迭代步数">迭代步数</h3>
-
-<p>50</p>
-
-<h3 id="采样方法">采样方法</h3>
-
-<p>DPM++ 2M SDE Karras</p>
-
-<h3 id="宽度-高度">宽度 高度</h3>
-
-<p>1024 768</p>
-
-<h3 id="随机种子">随机种子</h3>
-
-<p>-1</p>
-
-<h3 id="adetailer">ADetailer</h3>
-
-<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730001243898.png" alt="image-20230730001243898" /></p>
-
-<h3 id="controlnet-v11206">ControlNet v1.1.206</h3>
-
-<p>完美像素模式</p>
-
-<p>模型 control_v1p_sd15_qrcode_monster [a6e58995]</p>
-
-<p>缩放并填充</p>
-
-<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\image-20230730002150892.png" alt="image-20230730002150892" /></p>]]></content><author><name></name></author><category term="bin" /><category term="qr" /><summary type="html"><![CDATA[二维码制作]]></summary></entry><entry><title type="html">滴水学习</title><link href="http://localhost:4000/pwn/bin/2022/08/24/dishui.html" rel="alternate" type="text/html" title="滴水学习" /><published>2022-08-24T21:06:29+08:00</published><updated>2022-08-24T21:06:29+08:00</updated><id>http://localhost:4000/pwn/bin/2022/08/24/dishui</id><content type="html" xml:base="http://localhost:4000/pwn/bin/2022/08/24/dishui.html"><![CDATA[<h1 id="滴水学习">滴水学习</h1>
+</ol>]]></content><author><name></name></author><category term="计组" /><category term="408" /><summary type="html"><![CDATA[计算机网络]]></summary></entry><entry><title type="html">滴水学习</title><link href="http://localhost:4000/pwn/bin/2022/08/24/dishui.html" rel="alternate" type="text/html" title="滴水学习" /><published>2022-08-24T21:06:29+08:00</published><updated>2022-08-24T21:06:29+08:00</updated><id>http://localhost:4000/pwn/bin/2022/08/24/dishui</id><content type="html" xml:base="http://localhost:4000/pwn/bin/2022/08/24/dishui.html"><![CDATA[<h1 id="滴水学习">滴水学习</h1>
 
 <h2 id="常用寄存器">常用寄存器</h2>
 
