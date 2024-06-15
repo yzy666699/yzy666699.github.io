@@ -130,27 +130,53 @@ var customSearch;
 		const sr = ScrollReveal({ distance: 0 });
 		sr.reveal('.reveal');
 	}
+
+
+
 	function setTocToggle() {
 		const $toc = $('.toc-wrapper');
 		if ($toc.length === 0) return;
-		$toc.click((e) => { e.stopPropagation(); $toc.addClass('active'); });
+	
+		$toc.click((e) => {
+			e.stopPropagation();
+			$toc.addClass('active');
+		});
+	
 		$(document).click(() => $toc.removeClass('active'));
-
+	
 		$toc.on('click', 'a', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			scrolltoElement(e.target.tagName.toLowerCase === 'a' ? e.target : e.target.parentElement);
+			const target = e.target.tagName.toLowerCase() === 'a' ? e.target : e.target.parentElement;
+			const href = target.getAttribute('href');
+			if (href) {
+				const targetId = decodeURIComponent(href.substring(1));
+				const targetElement = document.getElementById(targetId);
+				if (targetElement) {
+					scrolltoElement(targetElement);
+				}
+			}
 		});
-
+	
 		const liElements = Array.from($toc.find('li a'));
-		//function animate above will convert float to int.
-		const getAnchor = () => liElements.map(elem => Math.floor($(elem.getAttribute('href')).offset().top - scrollCorrection));
-
+		// Function animate above will convert float to int.
+		const getAnchor = () => liElements.map(elem => {
+			const href = elem.getAttribute('href');
+			if (href) {
+				const decodedHref = decodeURIComponent(href);
+				const targetElement = document.getElementById(decodedHref.substring(1));
+				if (targetElement) {
+					return Math.floor($(targetElement).offset().top - scrollCorrection);
+				}
+			}
+			return null;
+		}).filter(anchor => anchor !== null);
+	
 		let anchor = getAnchor();
 		const scrollListener = () => {
 			const scrollTop = $('html').scrollTop() || $('body').scrollTop();
 			if (!anchor) return;
-			//binary search.
+			// Binary search.
 			let l = 0, r = anchor.length - 1, mid;
 			while (l < r) {
 				mid = (l + r + 1) >> 1;
@@ -160,16 +186,67 @@ var customSearch;
 			}
 			$(liElements).removeClass('active').eq(l).addClass('active');
 		}
+	
 		$(window)
 			.resize(() => {
 				anchor = getAnchor();
 				scrollListener();
 			})
 			.scroll(() => {
-				scrollListener()
+				scrollListener();
 			});
+	
 		scrollListener();
 	}
+	
+	function scrolltoElement(elem, correction) {
+		correction = correction || scrollCorrection;
+		const $elem = $(elem);
+		$('html, body').animate({ 'scrollTop': $elem.offset().top - correction }, 400);
+	}
+	
+
+
+	// function setTocToggle() {
+	// 	const $toc = $('.toc-wrapper');
+	// 	if ($toc.length === 0) return;
+	// 	$toc.click((e) => { e.stopPropagation(); $toc.addClass('active'); });
+	// 	$(document).click(() => $toc.removeClass('active'));
+
+	// 	$toc.on('click', 'a', (e) => {
+	// 		e.preventDefault();
+	// 		e.stopPropagation();
+	// 		scrolltoElement(e.target.tagName.toLowerCase === 'a' ? e.target : e.target.parentElement);
+	// 	});
+
+	// 	const liElements = Array.from($toc.find('li a'));
+	// 	//function animate above will convert float to int.
+	// 	const getAnchor = () => liElements.map(elem => Math.floor($(elem.getAttribute('href')).offset().top - scrollCorrection));
+
+	// 	let anchor = getAnchor();
+	// 	const scrollListener = () => {
+	// 		const scrollTop = $('html').scrollTop() || $('body').scrollTop();
+	// 		if (!anchor) return;
+	// 		//binary search.
+	// 		let l = 0, r = anchor.length - 1, mid;
+	// 		while (l < r) {
+	// 			mid = (l + r + 1) >> 1;
+	// 			if (anchor[mid] === scrollTop) l = r = mid;
+	// 			else if (anchor[mid] < scrollTop) l = mid;
+	// 			else r = mid - 1;
+	// 		}
+	// 		$(liElements).removeClass('active').eq(l).addClass('active');
+	// 	}
+	// 	$(window)
+	// 		.resize(() => {
+	// 			anchor = getAnchor();
+	// 			scrollListener();
+	// 		})
+	// 		.scroll(() => {
+	// 			scrollListener()
+	// 		});
+	// 	scrollListener();
+	// }
 
 	// function getPicture() {
 	// 	const $banner = $('.banner');
