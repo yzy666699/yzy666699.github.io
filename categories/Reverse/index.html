@@ -177,9 +177,9 @@
 <li>最终，这段代码访问了PE文件中的某个特定<code>DataDirectory</code>入口（很可能是导出表），然后通过这个入口来获取其他信息或进行进一步的操作。</li>
 </ol>
 <p><strong>如果逆向时突然出现两次循环且每次循环次数都为256，后续存在异或操作基本可以猜测为rc4解密算法，这种特性为rc4算法特征</strong></p>
-<p><img src="D:\hexo\source_posts\photo\784955_Q4TARCJCEH7P6BT.jpg" alt="784955_Q4TARCJCEH7P6BT"></p>
+<p><img src="https://i.imgur.com/21pbopR.png" alt="784955_Q4TARCJCEH7P6BT"></p>
 <h2 id="记一次BYOYD驱动分析"><a href="#记一次BYOYD驱动分析" class="headerlink" title="记一次BYOYD驱动分析"></a>记一次BYOYD驱动分析</h2><p>首先直接定位到驱动的<code>IRP_MJ_DEVICE_CONTROL(14)</code>分发例程函数位置：</p>
-<p><img src="D:\hexo\source_posts\photo\640.webp" alt="图片"></p>
+<p><img src="https://i.imgur.com/ZNd2Oz7.png" alt="图片"></p>
 <ol>
 <li><p><code>a2-&gt;Tail.Overlay.CurrentStackLocation</code>其实就是<code>IoGetCurrentIrpStackLocation()</code>函数的实现。</p>
 </li>
@@ -187,26 +187,26 @@
 <p><code>CurrentStackLocation-&gt;Parameters.Read.ByteOffset.LowPart</code> 获取，姑且当做是同一个意思。 <code>alt+Y</code>切换联合体</p>
 </li>
 <li><p><code>a2-&gt;AssociatedIrp.MasterIrp</code> 其实是<code>a2-&gt;AssociatedIrp.SystemBuffer</code>（输入缓冲区的地址），因为它俩在一个<code>union </code>中，共享一个偏移量。</p>
-<p><img src="D:\hexo\source_posts\photo\640-1712036409951-3.webp" alt="图片"></p>
-<p><img src="C:\Users\17290\OneDrive\桌面\博客文章\photo\640-1712036635347-18.webp" alt="图片"></p>
+<p><img src="https://i.imgur.com/ccF4J1u.png" alt="图片"></p>
+<p><img src="https://i.imgur.com/9I9jlle.png" alt="图片"></p>
 </li>
 <li><p><code>MasterIrp-&gt;Type</code> 其实就是SystemBuffer 这个缓冲区（0x9E6A0594 代表这是一个缓冲IO），因为这里Type它的偏移其实是0。<code>MasterIrp-&gt;MdlAddress</code>这里的MdlAddress偏移是8，是一个长度（从sub_1400012BC函数内部看出来的），这个由客户端程序构造。</p>
 </li>
 <li><p><code>dword_14000410C</code>是一个全局变量（在.data段），它的值是当前进程的PID，在<code>sub_1400012BC</code>函数中赋予。所以，我们要想走到下面的流程，必须要先完成0x9E6A0594 这个IOCTL的操作。</p>
-<p><img src="D:\hexo\source_posts\photo\640-1712036414345-6.webp" alt="图片"></p>
+<p><img src="https://i.imgur.com/5JyBz4F.png" alt="图片"></p>
 </li>
 </ol>
 <p>接下来看下面几个IOCTL对应的代码逻辑：</p>
-<p><img src="D:\hexo\source_posts\photo\640-1712036416309-9.webp" alt="图片"></p>
+<p><img src="https://i.imgur.com/ZNd2Oz7.png" alt="图片"></p>
 <ol>
 <li><p><code>0xE6224248</code> 这个IOCTL代码下面，可以见到是根据PID获取句柄，然后添加到I&#x2F;O缓冲区后面。此部分逻辑和内存读取无关。</p>
 </li>
 <li><p><code>0x60A26124 </code>这块的代码逻辑，首先是从I&#x2F;O缓冲区中获取进程句柄。然后利用<code>ObReferenceObjectByHandle </code>函数获取此句柄对应的<code>EPROCESS</code>结构，最后调用<code>sub_140001B80</code>函数。在这个函数中，发现了<code>MmCopyVirtualMemory</code> 虚拟内存拷贝函数。</p>
-<p><img src="D:\hexo\source_posts\photo\640-1712036420792-12.webp" alt="图片"></p>
+<p><img src="/.io//hexo\source_posts\640-1712036420792-12.webp" alt="图片"></p>
 </li>
 </ol>
 <p>接下来就是弄清楚，这个5个参数是如何组织的：</p>
-<p><img src="D:\hexo\source_posts\photo\640-1712036423990-15.webp" alt="图片"></p>
+<p><img src="https://i.imgur.com/6WQfXRM.png" alt="图片"></p>
 <p>这里<code>rdi</code>寄存器中保存的是I&#x2F;O缓冲区的地址。结合上两张图I&#x2F;O缓冲区中的数据可以构成如下结构：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">HANDLE ProcessHander;</span><br><span class="line">INT64 SourceAddr;</span><br><span class="line">INT64 TargetAddr;</span><br><span class="line">SIZE_T Size;</span><br><span class="line">SIZE_T Result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -217,24 +217,24 @@
 </li>
 <li><p>接触ida反汇编中文限制</p>
 <p>过对IDA进行逆向得知，原来hexray在生成伪代码的时候会调用一个<code>calc_c_cpp_name</code>函数，该函数会试图针对C&#x2F;C++的函数名称进行优化，结果却误伤中文字符，我们将此处代码给NOP掉，就可以了。</p>
-<p><img src="D:\hexo\source_posts\photo\image-20240402105902157.png" alt="image-20240402105902157"></p>
+<p><img src="/.io//hexo\source_posts\image-20240402105902157.png" alt="image-20240402105902157"></p>
 </li>
 </ol>
 <h3 id="采用插件分析易语言特征"><a href="#采用插件分析易语言特征" class="headerlink" title="采用插件分析易语言特征"></a>采用插件分析易语言特征</h3><h3 id="dump数据"><a href="#dump数据" class="headerlink" title="dump数据"></a>dump数据</h3><ul>
 <li><p>手动搜索 <code>4d 5a 90</code> 搜索到两个pe特征</p>
-<p><img src="D:\hexo\source_posts\photo\image-20240402105840502.png" alt="image-20240402105840502"></p>
+<p><img src="https://i.imgur.com/cyF3bp9.png" alt="image-20240402105840502"></p>
 </li>
 <li><p>dump出数据</p>
 </li>
 </ul>
 <p>​	易语言开发通常会把PE文件当作图片资源存放在易语言资源里面，而资源的数据区上面的DWORD就是数据大小</p>
-<p><img src="D:\hexo\source_posts\photo\image-20240402110040651.png" alt="image-20240402110040651"></p>
+<p><img src="https://i.imgur.com/Z5IMSvR.png" alt="image-20240402110040651"></p>
 <p>按这个规律可以直接dump出两个PE文件</p>
 <p>菜单栏中选择：edit–&gt;array，就会弹出如下的转换为数组，数组大小写入0x8660</p>
-<p><img src="D:\hexo\source_posts\photo\image-20240402110426617.png" alt="image-20240402110426617"></p>
+<p><img src="https://i.imgur.com/QIrPpxU.png" alt="image-20240402110426617"></p>
 <p>菜单栏选择：edit-&gt;export data 选择raw格式</p>
 <p>dump出的数据</p>
-<p><img src="D:\hexo\source_posts\photo\image-20240402111325403.png" alt="image-20240402111325403"></p>
+<p><img src="https://i.imgur.com/W6XbKum.png" alt="image-20240402111325403"></p>
 <h3 id="dump1-sys-逆向"><a href="#dump1-sys-逆向" class="headerlink" title="dump1.sys 逆向"></a>dump1.sys 逆向</h3><ol>
 <li>拖入ida分析，查看是标准的wdf驱动</li>
 <li></li>
