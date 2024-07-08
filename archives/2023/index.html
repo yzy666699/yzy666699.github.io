@@ -158,90 +158,12 @@
 
   </section>
   <section class="article typo">
-	  <h1 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h1><h2 id="记一次对勒索病毒的分析"><a href="#记一次对勒索病毒的分析" class="headerlink" title="记一次对勒索病毒的分析"></a>记一次对勒索病毒的分析</h2><h3 id="知识记录"><a href="#知识记录" class="headerlink" title="知识记录"></a>知识记录</h3><p>在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：</p>
-<ul>
-<li><strong>PE文件头结构</strong>：PE文件由MS-DOS头、PE文件头（包括COFF文件头和可选头）以及节（Sections）组成。PE头后面紧跟的是节表（Sections table），它描述了文件中各个节的位置和特性。</li>
-<li><strong><code>60</code>偏移量</strong>：在PE文件中，从文件开始到<code>PE</code>标志的偏移量存储在MS-DOS头的<code>0x3C</code>位置（十进制为60）。这是一个指向PE头的指针。通过读取这个偏移量并加上基地址，可以定位到PE头的开始。</li>
-<li><strong><code>120</code>偏移量</strong>：在可选头中，<code>DataDirectory</code>是一个数组，它提供了关于各种表和数据结构（如导入表、导出表、资源表等）的信息。<code>DataDirectory</code>的第一个元素（索引为0）是导出表的入口，而<code>DataDirectory</code>本身在可选头的开始处有一个偏移量。在标准的PE格式中，<code>DataDirectory</code>数组距离PE头的开始有<code>0x78</code>（十进制120）字节的偏移。</li>
-</ul>
-<p>所以，当你看到这样的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.text:004068F1                 mov     ecx, [edi+3Ch]</span><br><span class="line">.text:004068F4                 and     esi, 1FFFFFh</span><br><span class="line">.text:004068FA                 xor     ebx, ebx</span><br><span class="line">.text:004068FC                 mov     ecx, [ecx+edi+78h]</span><br></pre></td></tr></table></figure>
+	  <h1 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h1><h2 id="记一次对勒索病毒的分析"><a href="#记一次对勒索病毒的分析" class="headerlink" title="记一次对勒索病毒的分析"></a>记一次对勒索病毒的分析</h2><h3 id="知识汇总"><a href="#知识汇总" class="headerlink" title="知识汇总"></a>知识汇总</h3><p>在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：</p>
 
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v14 + *(_DWORD *)(*(_DWORD *)(v14 + <span class="number">60</span>) + v14 + <span class="number">120</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这里的操作可以这样理解：</p>
-<ol>
-<li><code>v14</code>代表加载到内存中的PE文件的基地址。</li>
-<li><code>v14 + 60</code>是获取到PE头的偏移量。</li>
-<li><code>*(_DWORD *)(v14 + 60)</code>读取该偏移量，得到PE头的实际地址。</li>
-<li>在PE头的基础上加上<code>120</code>，即可定位到<code>DataDirectory</code>。</li>
-<li>最终，这段代码访问了PE文件中的某个特定<code>DataDirectory</code>入口（很可能是导出表），然后通过这个入口来获取其他信息或进行进一步的操作。</li>
-</ol>
-<p><strong>如果逆向时突然出现两次循环且每次循环次数都为256，后续存在异或操作基本可以猜测为rc4解密算法，这种特性为rc4算法特征</strong></p>
-<p><img src="https://i.imgur.com/21pbopR.png" alt="784955_Q4TARCJCEH7P6BT"></p>
-<h2 id="记一次BYOYD驱动分析"><a href="#记一次BYOYD驱动分析" class="headerlink" title="记一次BYOYD驱动分析"></a>记一次BYOYD驱动分析</h2><p>首先直接定位到驱动的<code>IRP_MJ_DEVICE_CONTROL(14)</code>分发例程函数位置：</p>
-<p><img src="https://i.imgur.com/9lSDpA6.jpeg" alt="图片"></p>
-<ol>
-<li><p><code>a2-&gt;Tail.Overlay.CurrentStackLocation</code>其实就是<code>IoGetCurrentIrpStackLocation()</code>函数的实现。</p>
-</li>
-<li><p>正常是通过<code>stack-&gt;Parameters.DeviceIoControl.IoControlCode </code>来获取IOCTL值的，反编译这里是通过</p>
-<p><code>CurrentStackLocation-&gt;Parameters.Read.ByteOffset.LowPart</code> 获取，姑且当做是同一个意思。 <code>alt+Y</code>切换联合体</p>
-</li>
-<li><p><code>a2-&gt;AssociatedIrp.MasterIrp</code> 其实是<code>a2-&gt;AssociatedIrp.SystemBuffer</code>（输入缓冲区的地址），因为它俩在一个<code>union </code>中，共享一个偏移量。</p>
-<p><img src="https://i.imgur.com/uNqrVk6.jpeg" alt="图片"></p>
-<p><strong>Associatedlrp.SystemBuffer</strong>: SystemBuffer指针指向一个数据缓冲区，该缓冲区位于内核模式的非分<br>页内存中I&#x2F;O管理器把用户模式程序发送给驱动程序的数据复制到这个缓冲区，这也是创建IRP过程的一部<br>分。对于读请求，设备驱动程序把读出的数据填到这个缓冲区，然后I&#x2F;O管理器再把缓浊区的内容复制到<br>用户模式缓冲区。</p>
-</li>
-<li><p><code>MasterIrp-&gt;Type</code> 其实就是SystemBuffer 这个缓冲区（0x9E6A0594 代表这是一个缓冲IO），因为这里Type它的偏移其实是0。<code>MasterIrp-&gt;MdlAddress</code>这里的MdlAddress偏移是8，是一个长度（从sub_1400012BC函数内部看出来的），这个由客户端程序构造。</p>
-</li>
-<li><p><code>dword_14000410C</code>是一个全局变量（在.data段），它的值是当前进程的PID，在<code>sub_1400012BC</code>函数中赋予。所以，我们要想走到下面的流程，必须要先完成0x9E6A0594 这个IOCTL的操作。</p>
-<p><img src="https://i.imgur.com/ZyVoRrk.jpeg" alt="图片"></p>
-</li>
-</ol>
-<p>接下来看下面几个IOCTL对应的代码逻辑：</p>
-<p><img src="https://i.imgur.com/F5cfAL1.jpeg" alt="图片"></p>
-<ol>
-<li><p><code>0xE6224248</code> 这个IOCTL代码下面，可以见到是根据PID获取句柄，然后添加到I&#x2F;O缓冲区后面。此部分逻辑和内存读取无关。</p>
-</li>
-<li><p><code>0x60A26124 </code>这块的代码逻辑，首先是从I&#x2F;O缓冲区中获取进程句柄。然后利用<code>ObReferenceObjectByHandle </code>函数获取此句柄对应的<code>EPROCESS</code>结构，最后调用<code>sub_140001B80</code>函数。在这个函数中，发现了<code>MmCopyVirtualMemory</code> 虚拟内存拷贝函数。</p>
-<p><img src="https://i.imgur.com/iEuGKgX.jpeg" alt="图片"></p>
-</li>
-</ol>
-<p>接下来就是弄清楚，这个5个参数是如何组织的：</p>
-<p><img src="https://i.imgur.com/FHVlzwX.jpeg" alt="图片"></p>
-<p>这里<code>rdi</code>寄存器中保存的是I&#x2F;O缓冲区的地址。结合上两张图I&#x2F;O缓冲区中的数据可以构成如下结构：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">HANDLE ProcessHander;</span><br><span class="line">INT64 SourceAddr;</span><br><span class="line">INT64 TargetAddr;</span><br><span class="line">SIZE_T Size;</span><br><span class="line">SIZE_T Result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意这里MmCopyVirtualMemory 函数的SourceProcess和TargetProcess都一样为当前进程的EPROCESS。所以这里SourceAddr和TargetAddr互换就可以实现读写效果。</p>
-<h2 id="记一次堆外挂的分析"><a href="#记一次堆外挂的分析" class="headerlink" title="记一次堆外挂的分析"></a>记一次堆外挂的分析</h2><h3 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h3><h3 id="Patch-ida"><a href="#Patch-ida" class="headerlink" title="Patch ida"></a>Patch ida</h3><p>由于ida不支持中文名称命名，先patch掉中文函数名称支持</p>
-<ol>
-<li><p>去除合法字符检测 ：合法字符的定义在ida.cfg文件中，我们定位到文件，搜索Block_CJK_Unified_Ideographs。注释掉即可</p>
-</li>
-<li><p>接触ida反汇编中文限制</p>
-<p>过对IDA进行逆向得知，原来hexray在生成伪代码的时候会调用一个<code>calc_c_cpp_name</code>函数，该函数会试图针对C&#x2F;C++的函数名称进行优化，结果却误伤中文字符，我们将此处代码给NOP掉，就可以了。</p>
-<p><img src="https://i.imgur.com/SLOyGM3.jpeg" alt="image-20240402105902157"></p>
-</li>
-</ol>
-<h3 id="采用插件分析易语言特征"><a href="#采用插件分析易语言特征" class="headerlink" title="采用插件分析易语言特征"></a>采用插件分析易语言特征</h3><h3 id="dump数据"><a href="#dump数据" class="headerlink" title="dump数据"></a>dump数据</h3><ul>
-<li><p>手动搜索 <code>4d 5a 90</code> 搜索到两个pe特征</p>
-<p><img src="https://i.imgur.com/cyF3bp9.png" alt="image-20240402105840502"></p>
-</li>
-<li><p>dump出数据</p>
-</li>
-</ul>
-<p>​	易语言开发通常会把PE文件当作图片资源存放在易语言资源里面，而资源的数据区上面的DWORD就是数据大小</p>
-<p><img src="https://i.imgur.com/Z5IMSvR.png" alt="image-20240402110040651"></p>
-<p>按这个规律可以直接dump出两个PE文件</p>
-<p>菜单栏中选择：edit–&gt;array，就会弹出如下的转换为数组，数组大小写入0x8660</p>
-<p><img src="https://i.imgur.com/QIrPpxU.png" alt="image-20240402110426617"></p>
-<p>菜单栏选择：edit-&gt;export data 选择raw格式</p>
-<p>dump出的数据</p>
-<p><img src="https://i.imgur.com/W6XbKum.png" alt="image-20240402111325403"></p>
-<h3 id="dump1-sys-逆向"><a href="#dump1-sys-逆向" class="headerlink" title="dump1.sys 逆向"></a>dump1.sys 逆向</h3><ol>
-<li>拖入ida分析，查看是标准的wdf驱动</li>
-<li>分析<code>IRP_MJ_DEVICE_CONTROL(14)</code></li>
-</ol>
-<h2 id="360-驱动逆向"><a href="#360-驱动逆向" class="headerlink" title="360 驱动逆向"></a>360 驱动逆向</h2><h3 id="360文FsFlt-sys件系统过滤驱动"><a href="#360文FsFlt-sys件系统过滤驱动" class="headerlink" title="360文FsFlt.sys件系统过滤驱动"></a>360文FsFlt.sys件系统过滤驱动</h3>
-
+    
+	  <div class="readmore">
+      <a href="/2023/07/08/%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">Read More</a>
+    </div>
     
     
     
@@ -288,9 +210,11 @@
 <li><p><strong>数据竞态条件</strong>：如果多个线程或者进程共享一段内存，并且对这段内存的访问没有被正确地同步，可能会导致数据竞态条件，这也是一种常见的安全问题。通过指针分析，我们可以确定哪些内存区域被多个线程或者进程共享，从而帮助我们找出可能的数据竞态条件。</p>
 </li>
 </ol>
-<h2 id="part-0x02-Control-Flow-Graphs"><a href="#part-0x02-Control-Flow-Graphs" class="headerlink" title="part 0x02 Control Flow Graphs"></a>part 0x02 Control Flow Graphs</h2><h2 id="part-0x03-Data-Flow-Analysis"><a href="#part-0x03-Data-Flow-Analysis" class="headerlink" title="part 0x03 Data Flow Analysis"></a>part 0x03 Data Flow Analysis</h2><p>迭代算法</p>
 
-
+    
+	  <div class="readmore">
+      <a href="/2023/05/06/%E9%9D%99%E6%80%81%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90/">Read More</a>
+    </div>
     
     
     
@@ -356,6 +280,8 @@
     
         <li><a class="flat-box" href="/categories/ACM/"><div class='name'>ACM</div><div class='badget'>1</div></a></li>
     
+        <li><a class="flat-box" href="/categories/AI/"><div class='name'>AI</div><div class='badget'>1</div></a></li>
+    
         <li><a class="flat-box" href="/categories/Openwrt/"><div class='name'>Openwrt</div><div class='badget'>1</div></a></li>
     
         <li><a class="flat-box" href="/categories/Reverse/"><div class='name'>Reverse</div><div class='badget'>1</div></a></li>
@@ -369,7 +295,7 @@
 <div class="m_widget tagcloud">
     <div class="header">Tags</div>
     <div class='content'>
-        <a href="/tags/Analusis/" style="font-size: 14px; color: #808080">Analusis</a> <a href="/tags/ChinaDNS/" style="font-size: 14px; color: #808080">ChinaDNS</a> <a href="/tags/Reverse-analysis/" style="font-size: 14px; color: #808080">Reverse analysis</a> <a href="/tags/Shadowsocks/" style="font-size: 14px; color: #808080">Shadowsocks</a> <a href="/tags/algorithm/" style="font-size: 14px; color: #808080">algorithm</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 14px; color: #808080">科学上网</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 14px; color: #808080">路由器</a>
+        <a href="/tags/AI/" style="font-size: 14px; color: #808080">AI</a> <a href="/tags/Analusis/" style="font-size: 14px; color: #808080">Analusis</a> <a href="/tags/ChinaDNS/" style="font-size: 14px; color: #808080">ChinaDNS</a> <a href="/tags/Reverse-analysis/" style="font-size: 14px; color: #808080">Reverse analysis</a> <a href="/tags/Shadowsocks/" style="font-size: 14px; color: #808080">Shadowsocks</a> <a href="/tags/algorithm/" style="font-size: 14px; color: #808080">algorithm</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 14px; color: #808080">科学上网</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 14px; color: #808080">路由器</a>
     </div>
 </div>
 

@@ -12,12 +12,12 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="GeeK of Y2Y" type="application/atom+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="逆向分析记一次对勒索病毒的分析知识记录在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：  PE文件头结构：PE文件由MS-DOS头、PE文件头（包括COFF文件头和可选头）以及节（Sections）组成。PE头后面紧跟的是节表（Sections table），它描">
+  <meta name="description" content="逆向分析记一次对勒索病毒的分析知识汇总在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逆向分析">
 <meta property="og:url" content="https://yzy666699.github.io/2023/07/08/%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="GeeK of Y2Y">
-<meta property="og:description" content="逆向分析记一次对勒索病毒的分析知识记录在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：  PE文件头结构：PE文件由MS-DOS头、PE文件头（包括COFF文件头和可选头）以及节（Sections）组成。PE头后面紧跟的是节表（Sections table），它描">
+<meta property="og:description" content="逆向分析记一次对勒索病毒的分析知识汇总在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/21pbopR.png">
 <meta property="og:image" content="https://i.imgur.com/9lSDpA6.jpeg">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://i.imgur.com/QIrPpxU.png">
 <meta property="og:image" content="https://i.imgur.com/W6XbKum.png">
 <meta property="article:published_time" content="2023-07-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-07-08T15:36:40.500Z">
+<meta property="article:modified_time" content="2024-07-08T17:01:58.701Z">
 <meta property="article:author" content="Y2Y">
 <meta property="article:tag" content="Reverse analysis">
 <meta name="twitter:card" content="summary">
@@ -159,11 +159,13 @@
 
 	</section>
 	
-		<section class="toc-wrapper"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%86%E5%90%91%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">逆向分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AF%B9%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E7%9A%84%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">记一次对勒索病毒的分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E8%AE%B0%E5%BD%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">知识记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1BYOYD%E9%A9%B1%E5%8A%A8%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">记一次BYOYD驱动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%A0%86%E5%A4%96%E6%8C%82%E7%9A%84%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">记一次堆外挂的分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E5%A3%B3"><span class="toc-number">1.3.1.</span> <span class="toc-text">查壳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Patch-ida"><span class="toc-number">1.3.2.</span> <span class="toc-text">Patch ida</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E6%8F%92%E4%BB%B6%E5%88%86%E6%9E%90%E6%98%93%E8%AF%AD%E8%A8%80%E7%89%B9%E5%BE%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">采用插件分析易语言特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dump%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.4.</span> <span class="toc-text">dump数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dump1-sys-%E9%80%86%E5%90%91"><span class="toc-number">1.3.5.</span> <span class="toc-text">dump1.sys 逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#360-%E9%A9%B1%E5%8A%A8%E9%80%86%E5%90%91"><span class="toc-number">1.4.</span> <span class="toc-text">360 驱动逆向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#360%E6%96%87FsFlt-sys%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%BF%87%E6%BB%A4%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">360文FsFlt.sys件系统过滤驱动</span></a></li></ol></li></ol></li></ol></section>
+		<section class="toc-wrapper"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%86%E5%90%91%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">逆向分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%AF%B9%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E7%9A%84%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">记一次对勒索病毒的分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">知识汇总</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1BYOYD%E9%A9%B1%E5%8A%A8%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">记一次BYOYD驱动分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%A0%86%E5%A4%96%E6%8C%82%E7%9A%84%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">记一次堆外挂的分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E5%A3%B3"><span class="toc-number">1.3.1.</span> <span class="toc-text">查壳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Patch-ida"><span class="toc-number">1.3.2.</span> <span class="toc-text">Patch ida</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E6%8F%92%E4%BB%B6%E5%88%86%E6%9E%90%E6%98%93%E8%AF%AD%E8%A8%80%E7%89%B9%E5%BE%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">采用插件分析易语言特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dump%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.4.</span> <span class="toc-text">dump数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dump1-sys-%E9%80%86%E5%90%91"><span class="toc-number">1.3.5.</span> <span class="toc-text">dump1.sys 逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#360-%E9%A9%B1%E5%8A%A8%E9%80%86%E5%90%91"><span class="toc-number">1.4.</span> <span class="toc-text">360 驱动逆向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#360%E6%96%87FsFlt-sys%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%BF%87%E6%BB%A4%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">360文FsFlt.sys件系统过滤驱动</span></a></li></ol></li></ol></li></ol></section>
 	
 	<section class="article typo">
   	<div class="article-entry" itemprop="articleBody">
-    	<h1 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h1><h2 id="记一次对勒索病毒的分析"><a href="#记一次对勒索病毒的分析" class="headerlink" title="记一次对勒索病毒的分析"></a>记一次对勒索病毒的分析</h2><h3 id="知识记录"><a href="#知识记录" class="headerlink" title="知识记录"></a>知识记录</h3><p>在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：</p>
+    	<h1 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h1><h2 id="记一次对勒索病毒的分析"><a href="#记一次对勒索病毒的分析" class="headerlink" title="记一次对勒索病毒的分析"></a>记一次对勒索病毒的分析</h2><h3 id="知识汇总"><a href="#知识汇总" class="headerlink" title="知识汇总"></a>知识汇总</h3><p>在PE（Portable Executable，可移植可执行）文件格式中，各种数据结构和表都是通过偏移量来访问的。特定的偏移量，如60和120，通常与PE文件的标准布局有关。具体来说：</p>
+<span id="more"></span>
+
 <ul>
 <li><strong>PE文件头结构</strong>：PE文件由MS-DOS头、PE文件头（包括COFF文件头和可选头）以及节（Sections）组成。PE头后面紧跟的是节表（Sections table），它描述了文件中各个节的位置和特性。</li>
 <li><strong><code>60</code>偏移量</strong>：在PE文件中，从文件开始到<code>PE</code>标志的偏移量存储在MS-DOS头的<code>0x3C</code>位置（十进制为60）。这是一个指向PE头的指针。通过读取这个偏移量并加上基地址，可以定位到PE头的开始。</li>
@@ -321,6 +323,8 @@
     
         <li><a class="flat-box" href="/categories/ACM/"><div class='name'>ACM</div><div class='badget'>1</div></a></li>
     
+        <li><a class="flat-box" href="/categories/AI/"><div class='name'>AI</div><div class='badget'>1</div></a></li>
+    
         <li><a class="flat-box" href="/categories/Openwrt/"><div class='name'>Openwrt</div><div class='badget'>1</div></a></li>
     
         <li><a class="flat-box" href="/categories/Reverse/"><div class='name'>Reverse</div><div class='badget'>1</div></a></li>
@@ -334,7 +338,7 @@
 <div class="m_widget tagcloud">
     <div class="header">Tags</div>
     <div class='content'>
-        <a href="/tags/Analusis/" style="font-size: 14px; color: #808080">Analusis</a> <a href="/tags/ChinaDNS/" style="font-size: 14px; color: #808080">ChinaDNS</a> <a href="/tags/Reverse-analysis/" style="font-size: 14px; color: #808080">Reverse analysis</a> <a href="/tags/Shadowsocks/" style="font-size: 14px; color: #808080">Shadowsocks</a> <a href="/tags/algorithm/" style="font-size: 14px; color: #808080">algorithm</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 14px; color: #808080">科学上网</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 14px; color: #808080">路由器</a>
+        <a href="/tags/AI/" style="font-size: 14px; color: #808080">AI</a> <a href="/tags/Analusis/" style="font-size: 14px; color: #808080">Analusis</a> <a href="/tags/ChinaDNS/" style="font-size: 14px; color: #808080">ChinaDNS</a> <a href="/tags/Reverse-analysis/" style="font-size: 14px; color: #808080">Reverse analysis</a> <a href="/tags/Shadowsocks/" style="font-size: 14px; color: #808080">Shadowsocks</a> <a href="/tags/algorithm/" style="font-size: 14px; color: #808080">algorithm</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 14px; color: #808080">科学上网</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 14px; color: #808080">路由器</a>
     </div>
 </div>
 
