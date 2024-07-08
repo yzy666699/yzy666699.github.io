@@ -158,7 +158,7 @@
 
   </section>
   <section class="article typo">
-	  <p><img src="https://ol1kreips.qnssl.com/PandoraBox.png" alt="enter description here" title="PandoraBox.png"><br>先修改Lan接口，避免在无线中继的时候发生本地Lan接口与wwan接口发生冲突导致无法登陆路由器。</p>
+	  <p>先修改Lan接口，避免在无线中继的时候发生本地Lan接口与wwan接口发生冲突导致无法登陆路由器。</p>
 <p><code>网络 -&gt; Lan -&gt; IPv4地址， 设置为 192.168.33.1</code>更改之后需要重新连接一下网络。</p>
 <p>透明代理使用<code>shadowsocks-libev</code>和<code>ChinDNS</code>实现。使用ssh登陆路由器，安装所需软件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.33.1</span><br><span class="line">opkg update</span><br><span class="line">opkg install shadowsocks-libev luci-app-shadowsocks ChinaDNS luci-app-chinadns --force-checksum</span><br></pre></td></tr></table></figure>

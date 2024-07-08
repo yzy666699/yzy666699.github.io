@@ -6,7 +6,7 @@
   <link href="https://yzy666699.github.io/atom.xml" rel="self"/>
   
   <link href="https://yzy666699.github.io/"/>
-  <updated>2024-06-15T11:01:44.507Z</updated>
+  <updated>2024-07-08T15:36:40.500Z</updated>
   <id>https://yzy666699.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://yzy666699.github.io/2023/07/08/%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/"/>
     <id>https://yzy666699.github.io/2023/07/08/%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</id>
     <published>2023-07-07T16:00:00.000Z</published>
-    <updated>2024-06-15T11:01:44.507Z</updated>
+    <updated>2024-07-08T15:36:40.500Z</updated>
     
     
       
@@ -67,10 +67,10 @@
     <link href="https://yzy666699.github.io/2017/02/07/Pandorabox-transparent-proxy/"/>
     <id>https://yzy666699.github.io/2017/02/07/Pandorabox-transparent-proxy/</id>
     <published>2017-02-06T16:00:00.000Z</published>
-    <updated>2024-04-20T11:30:43.088Z</updated>
+    <updated>2024-07-08T15:38:23.551Z</updated>
     
     
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://ol1kreips.qnssl.com/PandoraBox.png&quot; alt=&quot;enter description here&quot; title=&quot;PandoraBox.png&quot;&gt;&lt;br&gt;先修改Lan接口，避免在无线中继的时候发生本地Lan接口与wwan接口发生冲突导致无法登陆路由器。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;先修改Lan接口，避免在无线中继的时候发生本地Lan接口与wwan接口发生冲突导致无法登陆路由器。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;网络 -&amp;gt; Lan -&amp;gt; IPv4地址， 设置为 192.168.33.1&lt;/code&gt;更改之后需要重新连接一下网络。&lt;/p&gt;
 &lt;p&gt;透明代理使用&lt;code&gt;shadowsocks-libev&lt;/code&gt;和&lt;code&gt;ChinDNS&lt;/code&gt;实现。使用ssh登陆路由器，安装所需软件。&lt;/p&gt;
 &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ssh root@192.168.33.1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;opkg update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;opkg install shadowsocks-libev luci-app-shadowsocks ChinaDNS luci-app-chinadns --force-checksum&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
