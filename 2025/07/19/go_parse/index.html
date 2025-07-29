@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>Go 符号恢复 | GeeK of Y2Y</title>
+  <meta name="description" content="Binary Security researcher and malware development enthusiast" />
+  <meta name="keywords" content="blog,stkevintan,IT,Web Front End,Kevin Tan,kevinsfork" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="alternate" href="/atom.xml" title="GeeK of Y2Y" type="application/atom+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Go Symbol Recovery查询版本Go 二进制文件中，还会把构建本文件的 Go 语言版本号打包进去。查看方式有以下 2 种：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 符号恢复">
+<meta property="og:url" content="https://blog.y2ys.me/2025/07/19/go_parse/index.html">
+<meta property="og:site_name" content="GeeK of Y2Y">
+<meta property="og:description" content="Go Symbol Recovery查询版本Go 二进制文件中，还会把构建本文件的 Go 语言版本号打包进去。查看方式有以下 2 种：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728112155088.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728112909337.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728113826628.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728113854173.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728114640548.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728115050710.png">
+<meta property="og:image" content="https://blog.y2ys.me/images/go_parse/image-20250728115244406.png">
+<meta property="article:published_time" content="2025-07-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-29T16:18:20.746Z">
+<meta property="article:author" content="Y2Y">
+<meta property="article:tag" content="Reverse analysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.y2ys.me/images/go_parse/image-20250728112155088.png">
+    
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <link href='//cdn.bootcss.com/node-waves/0.7.5/waves.min.css' rel='stylesheet'>
+  
+<link rel="stylesheet" href="/style.css">
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+
+
+  <script>setLoadingBarProgress(20)</script> 
+  <header class="l_header">
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+			<a class="logo flat-box" href='/' >
+				GeeK of Y2Y
+			</a>
+			<div class='menu'>
+				<ul class='h-list'>
+					
+						<li>
+							<a class='flat-box nav-home' href='/'>
+								Home
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-archives' href='/archives'>
+								Archives
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-about' href='/about'>
+								About
+							</a>
+						</li>
+					
+				</ul>
+				<div class='underline'></div>
+			</div>
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="Search" />
+						<span class="icon icon-search"></span>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a href='javascript:void(0)'><span class="icon icon-search flat-box"></span></a></li>
+				
+				<li class='s-menu'><a href='javascript:void(0)'><span class="icon icon-menu flat-box"></span></a></li>
+			</ul>
+		</div>
+		
+		<div class='nav-sub container container--flex'>
+			<a class="logo" class="flat-box" href='javascript:void(0)'>
+				Word of Forks
+			</a>
+
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a href='javascript:void(0)'><span class="icon icon-chat_bubble_outline flat-box"></span></a></li>
+				<li class='s-top'><a href='javascript:void(0)'><span class="icon icon-arrow_upward flat-box"></span></a></li>
+				<li class='s-toc'><a href='javascript:void(0)'><span class="icon icon-format_list_numbered flat-box"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<aside class="menu-phone">
+	<nav>
+		
+			<a href="/" class="nav-home nav">
+				Home
+			</a>
+		
+			<a href="/archives" class="nav-archives nav">
+				Archives
+			</a>
+		
+			<a href="/about" class="nav-about nav">
+				About
+			</a>
+		
+	</nav>
+</aside>
+
+    <script>setLoadingBarProgress(40);</script>
+  <div class="l_body">
+    <div class='container clearfix'>
+      <div class='l_main'>
+        <article id="post-go_parse"
+  class="post white-box article-type-post"
+  itemscope itemprop="blogPost">
+	<section class='meta'>
+	<h2 class="title">
+  	<a href="/2025/07/19/go_parse/">
+    	Go 符号恢复
+    </a>
+  </h2>
+	<time>
+	  7月 20, 2025
+	</time>
+	
+    
+    <div class='cats'>
+        <a href="/categories/Reverse/">Reverse</a>
+    </div>
+
+	</section>
+	
+		<section class="toc-wrapper"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Go-Symbol-Recovery"><span class="toc-number">1.</span> <span class="toc-text">Go Symbol Recovery</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%89%88%E6%9C%AC"><span class="toc-number">1.1.</span> <span class="toc-text">查询版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pclntab"><span class="toc-number">1.2.</span> <span class="toc-text">Pclntab</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDA-%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">IDA 代码</span></a></li></ol></li></ol></section>
+	
+	<section class="article typo">
+  	<div class="article-entry" itemprop="articleBody">
+    	<h1 id="Go-Symbol-Recovery"><a href="#Go-Symbol-Recovery" class="headerlink" title="Go Symbol Recovery"></a>Go Symbol Recovery</h1><h2 id="查询版本"><a href="#查询版本" class="headerlink" title="查询版本"></a>查询版本</h2><p>Go 二进制文件中，还会把构建本文件的 Go 语言版本号打包进去。查看方式有以下 2 种：</p>
+<span id="more"></span>
+
+<ol>
+<li><p>通过 IDAPro 中的 strings 检索：<br><img src="/./images/go_parse/image-20250728112155088.png" alt="image-20250728112155088"></p>
+</li>
+<li><p>通过 Go 语言官方命令 <code>$ go version [FILE]</code> ，该命令不指定文件则打印本地安装的 Go 语言版本，指定文件则打印目标文件对应的 Go 语言版本：</p>
+<p><img src="/./images/go_parse/image-20250728112909337.png" alt="image-20250728112909337"></p>
+</li>
+</ol>
+<h2 id="Pclntab"><a href="#Pclntab" class="headerlink" title="Pclntab"></a><strong>Pclntab</strong></h2><ol>
+<li><p>查询对应版本的pcHeader,以及获取 moduledata 结构 源代码 <a href="https://github.com/golang/go/blob/go1.23.1/src/runtime/symtab.go">https://github.com/golang/go/blob/go1.23.1/src/runtime/symtab.go</a> </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pcHeader holds data used by the pclntab lookups.</span></span><br><span class="line"><span class="keyword">type</span> pcHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">	magic          <span class="type">uint32</span>  <span class="comment">// 0xFFFFFFF1</span></span><br><span class="line">	pad1, pad2     <span class="type">uint8</span>   <span class="comment">// 0,0</span></span><br><span class="line">	minLC          <span class="type">uint8</span>   <span class="comment">// min instruction size</span></span><br><span class="line">	ptrSize        <span class="type">uint8</span>   <span class="comment">// size of a ptr in bytes</span></span><br><span class="line">	nfunc          <span class="type">int</span>     <span class="comment">// number of functions in the module</span></span><br><span class="line">	nfiles         <span class="type">uint</span>    <span class="comment">// number of entries in the file tab</span></span><br><span class="line">	textStart      <span class="type">uintptr</span> <span class="comment">// base for function entry PC offsets in this module, equal to moduledata.text</span></span><br><span class="line">	funcnameOffset <span class="type">uintptr</span> <span class="comment">// offset to the funcnametab variable from pcHeader</span></span><br><span class="line">	cuOffset       <span class="type">uintptr</span> <span class="comment">// offset to the cutab variable from pcHeader</span></span><br><span class="line">	filetabOffset  <span class="type">uintptr</span> <span class="comment">// offset to the filetab variable from pcHeader</span></span><br><span class="line">	pctabOffset    <span class="type">uintptr</span> <span class="comment">// offset to the pctab variable from pcHeader</span></span><br><span class="line">	pclnOffset     <span class="type">uintptr</span> <span class="comment">// offset to the pclntab variable from pcHeader</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// moduledata records information about the layout of the executable</span></span><br><span class="line"><span class="comment">// image. It is written by the linker. Any changes here must be</span></span><br><span class="line"><span class="comment">// matched changes to the code in cmd/link/internal/ld/symtab.go:symtab.</span></span><br><span class="line"><span class="comment">// moduledata is stored in statically allocated non-pointer memory;</span></span><br><span class="line"><span class="comment">// none of the pointers here are visible to the garbage collector.</span></span><br><span class="line"><span class="keyword">type</span> moduledata <span class="keyword">struct</span> &#123;</span><br><span class="line">	sys.NotInHeap <span class="comment">// Only in static data</span></span><br><span class="line"></span><br><span class="line">	pcHeader     *pcHeader</span><br><span class="line">	funcnametab  []<span class="type">byte</span></span><br><span class="line">	cutab        []<span class="type">uint32</span></span><br><span class="line">	filetab      []<span class="type">byte</span></span><br><span class="line">	pctab        []<span class="type">byte</span></span><br><span class="line">	pclntable    []<span class="type">byte</span></span><br><span class="line">	ftab         []functab</span><br><span class="line">	findfunctab  <span class="type">uintptr</span></span><br><span class="line">	minpc, maxpc <span class="type">uintptr</span></span><br><span class="line"></span><br><span class="line">	text, etext           <span class="type">uintptr</span></span><br><span class="line">	noptrdata, enoptrdata <span class="type">uintptr</span></span><br><span class="line">	data, edata           <span class="type">uintptr</span></span><br><span class="line">	bss, ebss             <span class="type">uintptr</span></span><br><span class="line">	noptrbss, enoptrbss   <span class="type">uintptr</span></span><br><span class="line">	covctrs, ecovctrs     <span class="type">uintptr</span></span><br><span class="line">	end, gcdata, gcbss    <span class="type">uintptr</span></span><br><span class="line">	types, etypes         <span class="type">uintptr</span></span><br><span class="line">	rodata                <span class="type">uintptr</span></span><br><span class="line">	gofunc                <span class="type">uintptr</span> <span class="comment">// go.func.*</span></span><br><span class="line"></span><br><span class="line">	textsectmap []textsect</span><br><span class="line">	typelinks   []<span class="type">int32</span> <span class="comment">// offsets from types</span></span><br><span class="line">	itablinks   []*itab</span><br><span class="line"></span><br><span class="line">	ptab []ptabEntry</span><br><span class="line"></span><br><span class="line">	pluginpath <span class="type">string</span></span><br><span class="line">	pkghashes  []modulehash</span><br><span class="line"></span><br><span class="line">	<span class="comment">// This slice records the initializing tasks that need to be</span></span><br><span class="line">	<span class="comment">// done to start up the program. It is built by the linker.</span></span><br><span class="line">	inittasks []*initTask</span><br><span class="line"></span><br><span class="line">	modulename   <span class="type">string</span></span><br><span class="line">	modulehashes []modulehash</span><br><span class="line"></span><br><span class="line">	hasmain <span class="type">uint8</span> <span class="comment">// 1 if module contains the main function, 0 otherwise</span></span><br><span class="line">	bad     <span class="type">bool</span>  <span class="comment">// module failed to load and should be ignored</span></span><br><span class="line"></span><br><span class="line">	gcdatamask, gcbssmask bitvector</span><br><span class="line"></span><br><span class="line">	typemap <span class="keyword">map</span>[typeOff]*_type <span class="comment">// offset to *_rtype in previous module</span></span><br><span class="line"></span><br><span class="line">	next *moduledata</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过<code>magic          uint32  // 0xFFFFFFF1</code>  定位到<code>pcHeader</code> 之后交叉引用找到<code>moduledata</code></p>
+<p><img src="/./images/go_parse/image-20250728113826628.png" alt="image-20250728113826628"></p>
+<p><img src="/./images/go_parse/image-20250728113854173.png" alt="image-20250728113854173"></p>
+</li>
+<li><p>通过<code>pclnOffset</code>  (偏移与pcHeader) 定位 0x11F2DE0</p>
+<p><img src="/./images/go_parse/image-20250728114640548.png" alt="image-20250728114640548"></p>
+</li>
+<li><p>pcln对应的结构体如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//src\runtime\symtab.go</span><br><span class="line">type functab struct &#123;</span><br><span class="line">    entryoff uint32 // relative to runtime.text</span><br><span class="line">    funcoff  uint32</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type funcInfo struct &#123;</span><br><span class="line">    *_func</span><br><span class="line">    datap *moduledata</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//src\runtime\runtime2.go</span><br><span class="line">type _func struct &#123;</span><br><span class="line">    entry   uintptr // start pc</span><br><span class="line">    nameoff int32   // function name</span><br><span class="line"> </span><br><span class="line">    args        int32  // in/out args size</span><br><span class="line">    deferreturn uint32 // offset of start of a deferreturn call instruction from entry, if any.</span><br><span class="line"> </span><br><span class="line">    pcsp      uint32</span><br><span class="line">    pcfile    uint32</span><br><span class="line">    pcln      uint32</span><br><span class="line">    npcdata   uint32</span><br><span class="line">    cuOffset  uint32  // runtime.cutab offset of this function&#x27;s CU</span><br><span class="line">    funcID    funcID  // set for certain special runtime functions</span><br><span class="line">    _         [2]byte // pad</span><br><span class="line">    nfuncdata uint8   // must be last</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应着一个 funcInfo 结构体, 里面包含一个 _func 类型，该类型中有我们想要的信息。<br>意思就是: func 的 _func &#x3D; pclntable + funcOff<br>通过上图的信息计算:</p>
+<p><code>0x11F2DE0+ 0x0D5B0 = 0x1200390</code> 对应<code>_func</code></p>
+<p><img src="/./images/go_parse/image-20250728115050710.png" alt="image-20250728115050710"></p>
+</li>
+<li><p>函数结构名称偏移与对应</p>
+<p><img src="/./images/go_parse/image-20250728115244406.png" alt="image-20250728115244406"></p>
+</li>
+</ol>
+<h2 id="IDA-代码"><a href="#IDA-代码" class="headerlink" title="IDA 代码"></a>IDA 代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"><span class="keyword">from</span> idc <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> ida_nalt</span><br><span class="line"> </span><br><span class="line">moduledata_addr = addr</span><br><span class="line">pcHeader_addr = idc.get_qword(moduledata_addr)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> idc.get_wide_dword(pcHeader_addr) != <span class="number">0x0FFFFFFF0</span>:</span><br><span class="line">    <span class="built_in">print</span>(idc.get_wide_dword(pcHeader_addr))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;错误，并不是一个正确的go文件&quot;</span>)</span><br><span class="line"> </span><br><span class="line">funcnametable_addr = idc.get_qword(moduledata_addr + <span class="number">8</span>)</span><br><span class="line">filetab_addr = idc.get_qword(moduledata_addr + <span class="number">8</span> + ((<span class="number">8</span>*<span class="number">3</span>) * <span class="number">2</span>))</span><br><span class="line">pclntable_addr = idc.get_qword(moduledata_addr + <span class="number">8</span> + ((<span class="number">8</span>*<span class="number">3</span>) * <span class="number">4</span>))</span><br><span class="line">pclntable_size = idc.get_qword(moduledata_addr + <span class="number">8</span> + ((<span class="number">8</span>*<span class="number">3</span>) * <span class="number">4</span>) + (<span class="number">8</span> * <span class="number">4</span>))</span><br><span class="line">set_name(moduledata_addr, <span class="string">&quot;firstmoduledata&quot;</span>)</span><br><span class="line">set_name(funcnametable_addr, <span class="string">&quot;funcnametable&quot;</span>)</span><br><span class="line">set_name(filetab_addr, <span class="string">&quot;filetab&quot;</span>)</span><br><span class="line">set_name(pclntable_addr, <span class="string">&quot;pclntable&quot;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(pclntable_size)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">readString</span>(<span class="params">addr</span>):</span><br><span class="line">    ea = addr</span><br><span class="line"> </span><br><span class="line">    res = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    cur_ea_db = get_db_byte(ea)</span><br><span class="line">    <span class="keyword">while</span>  cur_ea_db != <span class="number">0</span> <span class="keyword">and</span> cur_ea_db != <span class="number">0xff</span>:</span><br><span class="line">        res += <span class="built_in">chr</span>(cur_ea_db)</span><br><span class="line">        ea += <span class="number">1</span></span><br><span class="line">        cur_ea_db = get_db_byte(ea)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">relaxName</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="comment"># 将函数名称改成ida 支持的字符串</span></span><br><span class="line">    <span class="comment">#print(name)</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(name) != <span class="built_in">str</span>:</span><br><span class="line">        name = name.decode()</span><br><span class="line">    name = name.replace(<span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;_&#x27;</span>).replace(<span class="string">&quot;&lt;-&quot;</span>, <span class="string">&#x27;_chan_left_&#x27;</span>).replace(<span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;_ptr_&#x27;</span>).replace(<span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;_&#x27;</span>).replace(<span class="string">&#x27;;&#x27;</span>,<span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    name = name.replace(<span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;_&#x27;</span>).replace(<span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;_&#x27;</span>).replace(<span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;comma&#x27;</span>).replace(<span class="string">&#x27;&#123;&#x27;</span>,<span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;&#125;&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;[&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;]&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"> </span><br><span class="line">cur_addr = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pclntable_size):</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 获取函数信息表</span></span><br><span class="line">    cur_addr = pclntable_addr + (i * <span class="number">8</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 获取函数入口偏移</span></span><br><span class="line">    funcentryOff = get_wide_dword(cur_addr)</span><br><span class="line">    funcoff = get_wide_dword(cur_addr + <span class="number">4</span>)</span><br><span class="line"> </span><br><span class="line">    funcInfo_addr = pclntable_addr + funcoff</span><br><span class="line"> </span><br><span class="line">    funcentry_addr = get_wide_dword(funcInfo_addr)</span><br><span class="line">    funnameoff = get_wide_dword(funcInfo_addr + <span class="number">4</span>)</span><br><span class="line">    funname_addr = funcnametable_addr + funnameoff</span><br><span class="line">    funname = readString(funname_addr)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 真实函数地址</span></span><br><span class="line">    truefuncname = relaxName(funname)</span><br><span class="line">    truefuncentry = ida_nalt.get_imagebase() + <span class="number">0x1000</span> + funcentryOff</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">hex</span>(truefuncentry), <span class="built_in">hex</span>(funcoff), <span class="built_in">hex</span>(funcInfo_addr),<span class="built_in">hex</span>(funcentry_addr), <span class="built_in">hex</span>(funnameoff),<span class="built_in">hex</span>(funname_addr) ,funname)</span><br><span class="line">    <span class="comment"># 改名</span></span><br><span class="line">    set_name(truefuncentry, truefuncname)</span><br></pre></td></tr></table></figure>
+  	</div>
+	  
+	  <div class="article-tags tags">
+      
+        <a href="/tags/Reverse-analysis/">Reverse analysis</a>
+      
+	  </div>
+    
+		
+	
+		<div class="art-item-footer">
+				
+				
+					<span class="art-item-right">next：<a href="/2023/07/07/%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/" rel="next"  title="逆向分析">
+						逆向分析
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
+	
+	</section>
+	
+</article>
+<script>
+	window.subData = {
+		title: 'Go 符号恢复',
+		tools: true
+	}
+</script>
+
+      </div>
+      <aside class='l_side'>
+        
+  <section class='m_widget about'>
+
+<img class='avatar waves-image' src='/images/avatar.jpg' />
+
+<div class='header'>Y2Y</div>
+<div class='content'>
+<div class='desc'>Binary Security researcher and malware development enthusiast</div>
+</div>
+</section>
+
+  <section class='m_widget links'>
+<div class='header'>Links</div>
+<div class='content'>
+    <ul class="entry">
+    
+        <li><a class="flat-box" target="_blank" href="https://ccoooss.com">
+            <div class='name'>ClassicOldSong</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="https://frantic1048.logdown.com/">
+            <div class='name'>Frantic1048</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="https://hclmaster.github.io/">
+            <div class='name'>Hclmaster</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="https://whst.github.io/">
+            <div class='name'>WANG Hsü-Tung</div>
+        </a></li>
+    
+    </ul>
+</div>
+</section>
+
+  <section class='m_widget categories'>
+<div class='header'>Categories</div>
+<div class='content'>
+    
+    <ul class="entry">
+    
+        <li><a class="flat-box" href="/categories/ACM/"><div class='name'>ACM</div><div class='badget'>1</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/AI/"><div class='name'>AI</div><div class='badget'>1</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/Openwrt/"><div class='name'>Openwrt</div><div class='badget'>1</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/Reverse/"><div class='name'>Reverse</div><div class='badget'>2</div></a></li>
+    
+    </ul>
+    
+</div>
+</section>
+
+  
+<div class="m_widget tagcloud">
+    <div class="header">Tags</div>
+    <div class='content'>
+        <a href="/tags/AI/" style="font-size: 14px; color: #808080">AI</a> <a href="/tags/Analusis/" style="font-size: 14px; color: #808080">Analusis</a> <a href="/tags/ChinaDNS/" style="font-size: 14px; color: #808080">ChinaDNS</a> <a href="/tags/Reverse-analysis/" style="font-size: 20px; color: #000">Reverse analysis</a> <a href="/tags/Shadowsocks/" style="font-size: 14px; color: #808080">Shadowsocks</a> <a href="/tags/algorithm/" style="font-size: 14px; color: #808080">algorithm</a> <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" style="font-size: 14px; color: #808080">科学上网</a> <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/" style="font-size: 14px; color: #808080">路由器</a>
+    </div>
+</div>
+
+
+
+      </aside>
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+  </div>
+  <footer id="footer" class="clearfix">
+
+	<div class="social-wrapper">
+  	
+      
+        <a href="https://github.com/yzy666699" class="social github"
+          target="_blank" rel="external">
+          <span class="icon icon-github"></span>
+        </a>
+      
+        <a href="https://twitter.com/yzy6699" class="social twitter"
+          target="_blank" rel="external">
+          <span class="icon icon-twitter"></span>
+        </a>
+      
+        <a href="/atom.xml" class="social rss"
+          target="_blank" rel="external">
+          <span class="icon icon-rss"></span>
+        </a>
+      
+    
+  </div>
+  
+  <div>Github <a href='https://github.com/yzy666699' class="codename">Y2Y</a> Blog by <a href="https://blog.y2ys.me/" target="_blank">yzy6699</a>.</div>
+  
+</footer>
+
+
+  <script>setLoadingBarProgress(80);</script>
+  
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src='//cdn.bootcss.com/node-waves/0.7.5/waves.min.js'></script>
+<script src="//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js"></script>
+
+<script src="/js/jquery.fitvids.js"></script>
+
+<script>
+	var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+	var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+	var ALGOLIA_API_KEY = "";
+	var ALGOLIA_APP_ID = "";
+	var ALGOLIA_INDEX_NAME = "";
+  var AZURE_SERVICE_NAME = "";
+  var AZURE_INDEX_NAME = "";
+  var AZURE_QUERY_KEY = "";
+  var BAIDU_API_ID = "";
+  var SEARCH_SERVICE = "hexo";
+  var ROOT = "/"||"/";
+  if(!ROOT.endsWith('/'))ROOT += '/';
+</script>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/app.js"></script>
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
