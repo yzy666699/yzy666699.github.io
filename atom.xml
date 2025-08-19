@@ -6,7 +6,7 @@
   <link href="https://blog.y2ys.me/atom.xml" rel="self"/>
   
   <link href="https://blog.y2ys.me/"/>
-  <updated>2025-07-29T16:18:20.746Z</updated>
+  <updated>2025-08-19T18:09:51.960Z</updated>
   <id>https://blog.y2ys.me/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.y2ys.me/2025/07/19/go_parse/"/>
     <id>https://blog.y2ys.me/2025/07/19/go_parse/</id>
     <published>2025-07-19T16:00:00.000Z</published>
-    <updated>2025-07-29T16:18:20.746Z</updated>
+    <updated>2025-08-19T18:09:51.960Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Go-Symbol-Recovery&quot;&gt;&lt;a href=&quot;#Go-Symbol-Recovery&quot; class=&quot;headerlink&quot; title=&quot;Go Symbol Recovery&quot;&gt;&lt;/a&gt;Go Symbol Recovery&lt;/h1&gt;&lt;h2 id=&quot;查询版本&quot;&gt;&lt;a href=&quot;#查询版本&quot; class=&quot;headerlink&quot; title=&quot;查询版本&quot;&gt;&lt;/a&gt;查询版本&lt;/h2&gt;&lt;p&gt;Go 二进制文件中，还会把构建本文件的 Go 语言版本号打包进去。查看方式有以下 2 种：&lt;/p&gt;</summary>
@@ -110,7 +110,7 @@
     <link href="https://blog.y2ys.me/2017/02/06/Pandorabox-transparent-proxy/"/>
     <id>https://blog.y2ys.me/2017/02/06/Pandorabox-transparent-proxy/</id>
     <published>2017-02-06T16:00:00.000Z</published>
-    <updated>2025-07-23T17:25:32.473Z</updated>
+    <updated>2025-08-19T18:09:51.960Z</updated>
     
     
     <summary type="html">&lt;p&gt;先修改Lan接口，避免在无线中继的时候发生本地Lan接口与wwan接口发生冲突导致无法登陆路由器。&lt;/p&gt;
@@ -124,10 +124,6 @@
     
     <category term="Openwrt" scheme="https://blog.y2ys.me/categories/Openwrt/"/>
     
-    
-    <category term="路由器" scheme="https://blog.y2ys.me/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
-    
-    <category term="科学上网" scheme="https://blog.y2ys.me/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
     <category term="Shadowsocks" scheme="https://blog.y2ys.me/tags/Shadowsocks/"/>
     
